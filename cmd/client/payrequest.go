@@ -78,6 +78,18 @@ func payToLNURL(ctx *cli.Context) error {
 	case strings.HasPrefix(lnurl, "lnurlp://"):
 		url = strings.Replace(lnurl, "lnurlp", protocol, 1)
 
+	case strings.Contains(lnurl, "@"):
+		// This is an LN Address:
+		parts := strings.Split(lnurl, "@")
+		if len(parts) != 2 {
+			return fmt.Errorf("invalid LN address. Expected" +
+				"the form <username>@<domain>")
+		}
+
+		username, domain := parts[0], parts[1]
+		url = fmt.Sprintf("%s://%s/.well-known/lnurlp/%s",
+			protocol, domain, username)
+
 	default:
 		return fmt.Errorf("unsupported scheme")
 	}

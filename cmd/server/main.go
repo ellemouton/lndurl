@@ -9,6 +9,7 @@ import (
 
 func main() {
 	server, err := lndurl.NewServer(&lndurl.Config{
+		Username:    "elle",
 		Protocol:    "http",
 		Host:        "localhost",
 		Port:        8080,
