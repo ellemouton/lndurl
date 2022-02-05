@@ -117,15 +117,8 @@ func payToLNURL(ctx *cli.Context) error {
 			"required 'text/plain' field")
 	}
 
-	minSendable, err := strconv.ParseInt(payResp.MinSendable, 10, 64)
-	if err != nil {
-		return fmt.Errorf("could not parse MinSendable: %w", err)
-	}
-
-	maxSendable, err := strconv.ParseInt(payResp.MaxSendable, 10, 64)
-	if err != nil {
-		return fmt.Errorf("could not parse MaxSendable: %w", err)
-	}
+	minSendable := payResp.MinSendable
+	maxSendable := payResp.MaxSendable
 
 	// Check if the user specified an amount in the original call. If they
 	// did not or if the specified amount is not within the bounds specified

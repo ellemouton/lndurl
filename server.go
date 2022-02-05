@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"html"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -139,8 +140,17 @@ func (s *Server) pay(lnAddress bool) func(w http.ResponseWriter,
 		h := hex.EncodeToString(hash[:])
 		id := hex.EncodeToString(hash[:10])
 		meta := &metadata{
-			data:      h,
+			data:      fmt.Sprintf("[[\"text/plain\",\"%s\"]]", h),
 			createdAt: time.Now(),
+		}
+
+		if lnAddress {
+			addr := fmt.Sprintf("%s@%s", s.cfg.Username, s.cfg.Host)
+			if s.cfg.Port != 80 {
+				addr += fmt.Sprintf(":%d", s.cfg.Port)
+			}
+
+			meta.data = fmt.Sprintf("[[\"text/plain\",\"%s\"],[\"text/identifier\",\"%s\"]]", h, addr)
 		}
 
 		// TODO(elle): kick off a goroutine to expire & delete this
@@ -156,23 +166,10 @@ func (s *Server) pay(lnAddress bool) func(w http.ResponseWriter,
 
 		resp := &PayResponse{
 			Callback:    getInvoice,
-			MinSendable: fmt.Sprintf("%d", s.cfg.MinMsatSendable),
-			MaxSendable: fmt.Sprintf("%d", s.cfg.MaxMsatSendable),
-			Metadata: [][2]string{
-				{"text/plain", h},
-			},
-			Tag: TypePayRequest,
-		}
-
-		if lnAddress {
-			addr := fmt.Sprintf("%s@%s", s.cfg.Username, s.cfg.Host)
-			if s.cfg.Port != 80 {
-				addr += fmt.Sprintf(":%d", s.cfg.Port)
-			}
-			resp.Metadata = append(
-				resp.Metadata,
-				[2]string{"text/identifier", addr},
-			)
+			MinSendable: s.cfg.MinMsatSendable,
+			MaxSendable: s.cfg.MaxMsatSendable,
+			Metadata:    meta.data,
+			Tag:         TypePayRequest,
 		}
 
 		b, _ := json.Marshal(resp)
@@ -216,7 +213,7 @@ func (s *Server) invoice(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	h := sha256.Sum256([]byte(meta.data))
+	h := sha256.Sum256([]byte(html.UnescapeString(meta.data)))
 	ln := lntypes.Hash(h)
 
 	_, pr, err := s.lndClient.AddInvoice(ctx, &invoicesrpc.AddInvoiceData{

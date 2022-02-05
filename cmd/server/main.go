@@ -9,14 +9,16 @@ import (
 
 func main() {
 	server, err := lndurl.NewServer(&lndurl.Config{
-		Username:    "elle",
-		Protocol:    "http",
-		Host:        "localhost",
-		Port:        8080,
-		LndAddr:     "localhost:10011",
-		Network:     lndclient.NetworkRegtest,
-		MacaroonDir: "/Users/elle/LL/dev-resources/docker-regtest/mounts/regtest/alice",
-		TLSPath:     "/Users/elle/LL/dev-resources/docker-regtest/mounts/regtest/alice/tls.cert",
+		Username:        "elle",
+		Protocol:        "http",
+		Host:            "localhost",
+		Port:            8080,
+		LndAddr:         "localhost:10011",
+		Network:         lndclient.NetworkRegtest,
+		MacaroonDir:     "/Users/elle/LL/dev-resources/docker-regtest/mounts/regtest/alice",
+		TLSPath:         "/Users/elle/LL/dev-resources/docker-regtest/mounts/regtest/alice/tls.cert",
+		MaxMsatSendable: 20000,
+		MinMsatSendable: 100,
 	})
 	if err != nil {
 		log.Fatalln(err)

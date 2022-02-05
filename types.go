@@ -6,15 +6,15 @@ type PayResponse struct {
 	Callback string `json:"callback"`
 
 	// MaxSendable is the max amount LN SERVICE is willing to receive
-	MaxSendable string `json:"maxSendable"`
+	MaxSendable int64 `json:"maxSendable"`
 
 	// MinSendable is the min amount LN SERVICE is willing to receive, can
 	// not be less than 1 or more than `maxSendable`
-	MinSendable string `json:"minSendable"`
+	MinSendable int64 `json:"minSendable"`
 
 	// Metadata json which must be presented as raw string here, this is
 	// required to pass signature verification at a later step.
-	Metadata [][2]string `json:"metadata"`
+	Metadata string `json:"metadata"` //[][2]string `json:"metadata"`
 
 	// Type of LNURL
 	Tag Type `json:"tag"`
@@ -22,10 +22,10 @@ type PayResponse struct {
 
 type InvoiceResponse struct {
 	// PayRequest is a bech32-serialized lightning invoice.
-	PayRequest string
+	PayRequest string `json:"pr"`
 
 	// Routes an empty array.
-	Routes []string
+	Routes []string `json:"routes"`
 }
 
 type Type string
