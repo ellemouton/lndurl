@@ -30,12 +30,12 @@ func main() {
 		},
 		&cli.StringFlag{
 			Name:  "macpath",
-			Value: "/Users/ellemouton/tools/dev-resources-ckc-localupdate/docker-regtest/mounts/regtest/charlie",
+			Value: "/Users/elle/LL/dev-resources/docker-regtest/mounts/regtest/charlie",
 			Usage: "Path to lnd's mac dir",
 		},
 		&cli.StringFlag{
 			Name:  "tlspath",
-			Value: "/Users/ellemouton/tools/dev-resources-ckc-localupdate/docker-regtest/mounts/regtest/charlie/tls.cert",
+			Value: "/Users/elle/LL/dev-resources/docker-regtest/mounts/regtest/charlie/tls.cert",
 			Usage: "Path to lnd's tls cert",
 		},
 	}

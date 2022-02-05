@@ -15,8 +15,8 @@ func main() {
 		Port:        8080,
 		LndAddr:     "localhost:10011",
 		Network:     lndclient.NetworkRegtest,
-		MacaroonDir: "/Users/ellemouton/tools/dev-resources-ckc-localupdate/docker-regtest/mounts/regtest/alice",
-		TLSPath:     "/Users/ellemouton/tools/dev-resources-ckc-localupdate/docker-regtest/mounts/regtest/alice/tls.cert",
+		MacaroonDir: "/Users/elle/LL/dev-resources/docker-regtest/mounts/regtest/alice",
+		TLSPath:     "/Users/elle/LL/dev-resources/docker-regtest/mounts/regtest/alice/tls.cert",
 	})
 	if err != nil {
 		log.Fatalln(err)

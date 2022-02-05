@@ -13,13 +13,10 @@ import (
 	"sync"
 	"time"
 
-	"github.com/lightningnetwork/lnd/lntypes"
-
-	"github.com/lightningnetwork/lnd/lnwire"
-
-	"github.com/lightningnetwork/lnd/lnrpc/invoicesrpc"
-
 	"github.com/lightninglabs/lndclient"
+	"github.com/lightningnetwork/lnd/lnrpc/invoicesrpc"
+	"github.com/lightningnetwork/lnd/lntypes"
+	"github.com/lightningnetwork/lnd/lnwire"
 )
 
 type Server struct {
